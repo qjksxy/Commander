@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
-    private static EchoCommand echoCommand = new EchoCommand();
+    private static final EchoCommand echoCommand = new EchoCommand();
 
     public static void main(String[] args) {
         Register.register(echoCommand);

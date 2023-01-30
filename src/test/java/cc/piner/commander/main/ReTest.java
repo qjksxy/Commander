@@ -30,6 +30,7 @@ public class ReTest {
     @Test
     public void cmdTest() {
         Register.register(new EchoCommand());
-        System.out.println(Commander.handler("help echo"));
+        System.out.println(Commander.handler("help echo xoxo help"));
+
     }
 }

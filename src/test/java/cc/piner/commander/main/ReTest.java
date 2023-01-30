@@ -9,16 +9,6 @@ import java.util.List;
 
 public class ReTest {
     @Test
-    public void reTest() {
-        EchoCommand echoCommand = new EchoCommand();
-        Class<? extends EchoCommand> aClass = echoCommand.getClass();
-        Field[] fields = aClass.getFields();
-        for (Field field : fields) {
-            System.out.println(field.getName() + "::" + field.getType());
-        }
-    }
-
-    @Test
     public void strTest() {
         String str = "abcd  ab  hello kkk";
         String[] split = str.split("\\s+");
@@ -29,7 +19,7 @@ public class ReTest {
 
     @Test
     public void cmdTest() {
-        Register.register(new EchoCommand());
+        // Register.register(new EchoCommand());
         System.out.println(Commander.handler("help echo xoxo help"));
 
     }

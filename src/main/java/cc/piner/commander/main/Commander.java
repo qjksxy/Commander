@@ -3,33 +3,44 @@ package cc.piner.commander.main;
 import cc.piner.commander.annotation.Option;
 
 import java.lang.reflect.Field;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class Commander {
     public static String handle(String cmd) {
-        String[] split = cmd.split("\\s+");
         List<String> cmds = new ArrayList<>();
-        Collections.addAll(cmds, split);
-        return handle(cmds);
+        return handle(cmd, cmds);
+    }
+
+    public static String handle(String cmd, List<String> cmdList) {
+        String[] split = cmd.split("\\s+");
+        Collections.addAll(cmdList, split);
+        return handle(cmdList);
     }
 
     public static String handle(List<String> cmd) {
-        Command command = Register.getCommand(cmd.get(0));
-        cmd.remove(0);
-        if (command.init() == Command.SUCCESS) {
-            // 选项解析
-            try {
-                optionParse(command, cmd);
-            } catch (IllegalAccessException e) {
-                return "参数解析错误";
+        String head = cmd.get(0);
+        String aliasCmd = Register.getAliasCmd(head);
+        if (aliasCmd == null) {
+            Command command = Register.getCommand(head);
+            cmd.remove(0);
+            if (command.init() == Command.SUCCESS) {
+                // 选项解析
+                try {
+                    optionParse(command, cmd);
+                } catch (IllegalAccessException e) {
+                    return "参数解析错误";
+                }
+                return command.handle();
+            } else {
+                return "命令初始化失败";
             }
-            return command.handle();
         } else {
-            return "命令初始化失败";
+            cmd.remove(0);
+            return handle(aliasCmd, cmd);
         }
-
     }
 
     public static void optionParse(Command command, List<String> options) throws IllegalAccessException {

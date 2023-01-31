@@ -8,8 +8,9 @@ import java.util.Map;
 public class Register {
     public static final int SUCCESS = 0;
     public static final int DUPLICATE_ID = 1;
+    public static final int NOT_FOUND = 2;
     private static final Map<String, Command> commandMap = new HashMap<>();
-    private static final Map<String, String> alias = new HashMap<>();
+    private static final Map<String, String> aliasMap = new HashMap<>();
 
     static {
         init();
@@ -49,4 +50,27 @@ public class Register {
     public static Command getCommand(String cmd) {
         return commandMap.get(cmd);
     }
+
+    public static int addAlias(String alias, String value) {
+        if (aliasMap.containsKey(alias)) {
+            return DUPLICATE_ID;
+        } else {
+            aliasMap.put(alias, value);
+            return SUCCESS;
+        }
+    }
+
+    public static String getAliasCmd(String alias) {
+        return aliasMap.get(alias);
+    }
+
+    public static int deleteAlias(String alias) {
+        if (aliasMap.containsKey(alias)) {
+            aliasMap.remove(alias);
+            return SUCCESS;
+        } else {
+            return NOT_FOUND;
+        }
+    }
+
 }

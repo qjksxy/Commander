@@ -9,6 +9,13 @@ import java.util.Collections;
 import java.util.List;
 
 public class Commander {
+    static {
+        Environment.init();
+        //
+        System.out.println("Environment 初始化");
+    }
+
+
     public static String handle(String cmd) {
         List<String> cmds = new ArrayList<>();
         return handle(cmd, cmds);
@@ -21,6 +28,9 @@ public class Commander {
     }
 
     public static String handle(List<String> cmd) {
+
+        System.out.println("Commander.handle():" + cmd.toString());
+
         String head = cmd.get(0);
         String aliasCmd = Register.getAliasCmd(head);
         if (aliasCmd == null) {

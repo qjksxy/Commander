@@ -19,7 +19,7 @@ public class ReTest {
     @Test
     public void cmdTest() {
         // Register.register(new EchoCommand());
-        System.out.println(Commander.handle("help echo xoxo help"));
-
+        System.out.println(Commander.handle("help alias"));
+        System.out.println(Commander.handle("alias -d als alias -s"));
     }
 }

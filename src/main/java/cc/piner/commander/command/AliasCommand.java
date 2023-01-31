@@ -10,15 +10,16 @@ import cc.piner.commander.main.Register;
 public class AliasCommand extends Command {
     public static final String COMMAND_NAME = "alias";
     @Option(name = {"-d", "--delete"}, desc = "删除别名")
-    boolean delete;
+    public boolean delete;
 
-    @Option(name = {"-s"}, desc = "将此次操作持久化保存")
-    boolean save;
-
+    @Option(name = {"-s", "--save"}, desc = "将此次操作持久化保存")
+    public boolean save;
 
     @Override
     public String handle() {
         if (delete) {
+            System.out.println("in delete alias");
+            System.out.println(params);
             int i = Register.deleteAlias(params.get(0));
             if (i == Register.SUCCESS) {
                 return "删除别名 " + params.get(0) + " 成功！";
@@ -28,15 +29,14 @@ public class AliasCommand extends Command {
             }
         } else {
             String alias = params.get(0);
-            params.remove(0);
             StringBuilder value = new StringBuilder();
-            for (String param : params) {
-                value.append(param).append(" ");
+            for (int i = 1; i < params.size(); i++) {
+                value.append(params.get(i)).append(" ");
             }
             // alias (alias) value
             int i = Register.addAlias(alias, value.toString());
             if (i == Register.SUCCESS) {
-                return "成功添加别名：" + alias + "=" + value.toString();
+                return "成功添加别名：" + alias + "=" + value;
             }
         }
         return "ERROR";

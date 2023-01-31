@@ -1,5 +1,6 @@
 package cc.piner.commander.main;
 
+import cc.piner.commander.command.AliasCommand;
 import cc.piner.commander.command.HelpCommand;
 
 import java.util.HashMap;
@@ -18,6 +19,7 @@ public class Register {
 
     private static void init() {
         register(new HelpCommand());
+        register(new AliasCommand());
     }
 
     /**

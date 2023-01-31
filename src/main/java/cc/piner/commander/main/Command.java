@@ -7,7 +7,7 @@ public abstract class Command {
     public static final int SUCCESS = 0;
     public List<String> params;
 
-    public abstract String handler();
+    public abstract String handle();
 
     public abstract String getName();
 

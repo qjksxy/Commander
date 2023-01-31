@@ -8,14 +8,14 @@ import java.util.Collections;
 import java.util.List;
 
 public class Commander {
-    public static String handler(String cmd) {
+    public static String handle(String cmd) {
         String[] split = cmd.split("\\s+");
         List<String> cmds = new ArrayList<>();
         Collections.addAll(cmds, split);
-        return handler(cmds);
+        return handle(cmds);
     }
 
-    public static String handler(List<String> cmd) {
+    public static String handle(List<String> cmd) {
         Command command = Register.getCommand(cmd.get(0));
         cmd.remove(0);
         if (command.init() == Command.SUCCESS) {
@@ -25,7 +25,7 @@ public class Commander {
             } catch (IllegalAccessException e) {
                 return "参数解析错误";
             }
-            return command.handler();
+            return command.handle();
         } else {
             return "命令初始化失败";
         }

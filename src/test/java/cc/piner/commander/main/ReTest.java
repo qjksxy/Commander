@@ -2,7 +2,6 @@ package cc.piner.commander.main;
 
 import org.junit.Test;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -20,7 +19,7 @@ public class ReTest {
     @Test
     public void cmdTest() {
         // Register.register(new EchoCommand());
-        System.out.println(Commander.handler("help echo xoxo help"));
+        System.out.println(Commander.handle("help echo xoxo help"));
 
     }
 }

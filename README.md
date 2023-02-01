@@ -36,7 +36,7 @@
 
 
 #### 2. 将命令添加到注册表
-在项目中合适的地方调用方法 `Register.register(Command yourCommandIntence)` 即可。
+在项目中合适的地方调用方法 `Register.register(Command yourCommandInstance)` 即可。
 
 #### 3. 使用命令解析器解析并执行命令
 调用方法 `Commander.handle(String cmd)` 即可
@@ -68,7 +68,7 @@ public class ACommand extends Command {
 
     @Override
     public String handle() {
-        return sb.toString();
+        return this.toString();
     }
 
     @Override

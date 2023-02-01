@@ -3,33 +3,55 @@ package cc.piner.commander.main;
 import cc.piner.commander.annotation.Option;
 
 import java.lang.reflect.Field;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class Commander {
-    public static String handler(String cmd) {
-        String[] split = cmd.split("\\s+");
-        List<String> cmds = new ArrayList<>();
-        Collections.addAll(cmds, split);
-        return handler(cmds);
+    static {
+        Environment.init();
     }
 
-    public static String handler(List<String> cmd) {
-        Command command = Register.getCommand(cmd.get(0));
-        cmd.remove(0);
-        if (command.init() == Command.SUCCESS) {
-            // 选项解析
-            try {
-                optionParse(command, cmd);
-            } catch (IllegalAccessException e) {
-                return "参数解析错误";
-            }
-            return command.handler();
-        } else {
-            return "命令初始化失败";
-        }
 
+    public static String handle(String cmd) {
+        List<String> cmds = new ArrayList<>();
+        return handle(cmd, cmds);
+    }
+
+    public static String handle(String cmd, List<String> cmdList) {
+        String[] split = cmd.split("\\s+");
+        ArrayList<String> splits = new ArrayList<>();
+        Collections.addAll(splits, split);
+        splits.addAll(cmdList);
+        return handle(splits);
+    }
+
+    public static String handle(List<String> cmd) {
+        String result = "";
+        String head = cmd.get(0);
+        String aliasCmd = Register.getAliasCmd(head);
+        if (aliasCmd == null) {
+            Command command = Register.getCommand(head);
+            cmd.remove(0);
+            if (command.init() == Command.SUCCESS) {
+                // 选项解析
+                try {
+                    optionParse(command, cmd);
+                    result = command.handle();
+                    command.afterHanle();
+                } catch (IllegalAccessException e) {
+                    return "参数解析错误";
+                }
+
+            } else {
+                result = "命令初始化失败";
+            }
+        } else {
+            cmd.remove(0);
+            result = handle(aliasCmd, cmd);
+        }
+        return result;
     }
 
     public static void optionParse(Command command, List<String> options) throws IllegalAccessException {

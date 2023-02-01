@@ -13,7 +13,7 @@ public class HelpCommand extends Command {
     private static final String COMMAND_NAME = "help";
 
     @Override
-    public String handler() {
+    public String handle() {
         StringBuilder sb = new StringBuilder("---\n");
         for (String param : params) {
             Command command = Register.getCommand(param);

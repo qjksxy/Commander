@@ -7,7 +7,7 @@ public abstract class Command {
     public static final int SUCCESS = 0;
     public List<String> params;
 
-    public abstract String handler();
+    public abstract String handle();
 
     public abstract String getName();
 
@@ -18,5 +18,9 @@ public abstract class Command {
             params = new ArrayList<>();
         }
         params.add(param);
+    }
+
+    public void afterHanle() {
+        params.clear();
     }
 }

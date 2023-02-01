@@ -1,5 +1,6 @@
 package cc.piner.commander.main;
 
+import cc.piner.commander.annotation.Cmd;
 import cc.piner.commander.command.AliasCommand;
 import cc.piner.commander.command.HelpCommand;
 
@@ -10,6 +11,7 @@ public class Register {
     public static final int SUCCESS = 0;
     public static final int DUPLICATE_ID = 1;
     public static final int NOT_FOUND = 2;
+    public static final int NOT_COMMAND = 3;
     private static final Map<String, Command> commandMap = new HashMap<>();
     private static final Map<String, String> aliasMap = new HashMap<>();
 
@@ -29,13 +31,20 @@ public class Register {
      * @return Register.SUCCESS 注册成功
      * Register.DUPLICATE_ID name 字段冲突
      */
+    @SuppressWarnings("all")
     public static int register(Command command) {
-        if (commandMap.get(command.getName()) == null) {
-            commandMap.put(command.getName(), command);
-            return SUCCESS;
-        } else {
+        Class<? extends Command> cmdClass = command.getClass();
+        boolean isCmd = cmdClass.isAnnotationPresent(Cmd.class);
+        if (!isCmd) {
+            return NOT_COMMAND;
+        }
+        Cmd annotation = cmdClass.getAnnotation(Cmd.class);
+        String name = annotation.name();
+        if (commandMap.get(name) != null) {
             return DUPLICATE_ID;
         }
+        commandMap.put(name, command);
+        return SUCCESS;
     }
 
     /**

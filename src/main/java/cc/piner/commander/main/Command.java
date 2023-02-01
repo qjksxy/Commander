@@ -1,5 +1,7 @@
 package cc.piner.commander.main;
 
+import cc.piner.commander.annotation.Cmd;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,8 +10,6 @@ public abstract class Command {
     public List<String> params;
 
     public abstract String handle();
-
-    public abstract String getName();
 
     public abstract int init();
 
@@ -22,5 +22,10 @@ public abstract class Command {
 
     public void afterHanle() {
         params.clear();
+    }
+
+    public String getName() {
+        Cmd annotation = this.getClass().getAnnotation(Cmd.class);
+        return annotation.name();
     }
 }

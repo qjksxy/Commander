@@ -8,10 +8,8 @@ import cc.piner.commander.main.Register;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
-@Cmd(desc = "查看命令帮助")
+@Cmd(name = "help", desc = "查看命令帮助")
 public class HelpCommand extends Command {
-    private static final String COMMAND_NAME = "help";
-
     @Override
     public String handle() {
         StringBuilder sb = new StringBuilder("---\n");
@@ -52,11 +50,6 @@ public class HelpCommand extends Command {
             sb.append("\n---\n");
         }
         return sb.toString();
-    }
-
-    @Override
-    public String getName() {
-        return COMMAND_NAME;
     }
 
     @Override

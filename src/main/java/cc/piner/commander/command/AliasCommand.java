@@ -7,9 +7,8 @@ import cc.piner.commander.main.Commander;
 import cc.piner.commander.main.Environment;
 import cc.piner.commander.main.Register;
 
-@Cmd(desc = "为命令设置别名")
+@Cmd(name = "alias", desc = "为命令设置别名")
 public class AliasCommand extends Command {
-    public static final String COMMAND_NAME = "alias";
     @Option(name = {"-d", "--delete"}, desc = "删除别名")
     public boolean delete;
 
@@ -43,11 +42,6 @@ public class AliasCommand extends Command {
                 return "失败：ErrCode=" + i;
             }
         }
-    }
-
-    @Override
-    public String getName() {
-        return COMMAND_NAME;
     }
 
     @Override

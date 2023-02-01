@@ -14,7 +14,6 @@ public class Environment {
     private static final String FILE_PATH = ".cmdpro";
     private static final File FILE = new File(FILE_PATH);
 
-    private static final List<String> cmds = new ArrayList<>();
     private static boolean prepared = false;
 
     private Environment() {
@@ -30,16 +29,17 @@ public class Environment {
                 BufferedReader bufferedReader = new BufferedReader(fileReader);
                 String line;
                 while ((line = bufferedReader.readLine()) != null) {
-                    cmds.add(line);
                     Commander.handle(line);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-
             prepared = true;
         }
+    }
+
+    public static void saveCmd(String cmd) {
+
     }
 
 }

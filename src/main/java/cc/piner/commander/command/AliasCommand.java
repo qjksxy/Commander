@@ -4,6 +4,7 @@ import cc.piner.commander.annotation.Cmd;
 import cc.piner.commander.annotation.Option;
 import cc.piner.commander.main.Command;
 import cc.piner.commander.main.Commander;
+import cc.piner.commander.main.Environment;
 import cc.piner.commander.main.Register;
 
 @Cmd(desc = "为命令设置别名")
@@ -18,8 +19,6 @@ public class AliasCommand extends Command {
     @Override
     public String handle() {
         if (delete) {
-            System.out.println("in delete alias");
-            System.out.println(params);
             int i = Register.deleteAlias(params.get(0));
             if (i == Register.SUCCESS) {
                 return "删除别名 " + params.get(0) + " 成功！";
@@ -35,11 +34,15 @@ public class AliasCommand extends Command {
             }
             // alias (alias) value
             int i = Register.addAlias(alias, value.toString());
+            if (save) {
+                Environment.saveCmd("alias" + alias + value);
+            }
             if (i == Register.SUCCESS) {
                 return "成功添加别名：" + alias + "=" + value;
+            } else {
+                return "失败：ErrCode=" + i;
             }
         }
-        return "ERROR";
     }
 
     @Override

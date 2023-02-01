@@ -11,8 +11,6 @@ import java.util.List;
 public class Commander {
     static {
         Environment.init();
-        //
-        System.out.println("Environment 初始化");
     }
 
 
@@ -23,14 +21,14 @@ public class Commander {
 
     public static String handle(String cmd, List<String> cmdList) {
         String[] split = cmd.split("\\s+");
-        Collections.addAll(cmdList, split);
-        return handle(cmdList);
+        ArrayList<String> splits = new ArrayList<>();
+        Collections.addAll(splits, split);
+        splits.addAll(cmdList);
+        return handle(splits);
     }
 
     public static String handle(List<String> cmd) {
-
-        System.out.println("Commander.handle():" + cmd.toString());
-
+        String result = "";
         String head = cmd.get(0);
         String aliasCmd = Register.getAliasCmd(head);
         if (aliasCmd == null) {
@@ -40,17 +38,20 @@ public class Commander {
                 // 选项解析
                 try {
                     optionParse(command, cmd);
+                    result = command.handle();
+                    command.afterHanle();
                 } catch (IllegalAccessException e) {
                     return "参数解析错误";
                 }
-                return command.handle();
+
             } else {
-                return "命令初始化失败";
+                result = "命令初始化失败";
             }
         } else {
             cmd.remove(0);
-            return handle(aliasCmd, cmd);
+            result = handle(aliasCmd, cmd);
         }
+        return result;
     }
 
     public static void optionParse(Command command, List<String> options) throws IllegalAccessException {

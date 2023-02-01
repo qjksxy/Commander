@@ -75,4 +75,8 @@ public class Register {
         }
     }
 
+    public static Map<String, String> getAliasMap() {
+        return aliasMap;
+    }
+
 }

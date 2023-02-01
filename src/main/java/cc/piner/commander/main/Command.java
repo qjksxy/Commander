@@ -19,4 +19,8 @@ public abstract class Command {
         }
         params.add(param);
     }
+
+    public void afterHanle() {
+        params.clear();
+    }
 }
